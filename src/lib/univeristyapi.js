@@ -26,8 +26,6 @@ export async function getStudentNoticeBoardCategoriesIds() {
     
     const response = await fetch("http://localhost:8080/university/wordpress/wp-json/wp/v2/categories?name=student-noticeboard");
     const data = await response.json();
-    // console.log(data);
-    // `boligdetails/${home.id}`
     return data;
   } catch (error) {}
 }
@@ -40,4 +38,15 @@ export async function getStudentNoticeBoardCategoryPosts(CATEGORY_ID) {
     
     return data;
   } catch (error) {}
+}
+
+export async function getImage(){
+  try {
+    const response = await fetch("http://localhost:8080/university/wordpress/wp-json/wp/v2/media");
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    
+  }
+ 
 }

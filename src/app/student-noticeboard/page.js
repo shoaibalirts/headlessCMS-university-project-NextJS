@@ -4,7 +4,9 @@ import {
   getStudentNoticeBoardCategoriesIds,
   getStudentNoticeBoardCategoryPosts,
 } from "@/lib/univeristyapi";
+import Header from "../../../components/header";
 export default async function StudentNoticeBoardPage() {
+
   const studentNoticeBoard = await getStudentNoticeBoard(); // only for page description or content
   //   console.log(studentNoticeBoard);
   // -------------------
@@ -26,6 +28,7 @@ export default async function StudentNoticeBoardPage() {
 
   return (
     <>
+    <Header />
       <div className="p-4">
         <p className="font-2xl">
           {studentNoticeBoard[0].content.rendered.replace(
