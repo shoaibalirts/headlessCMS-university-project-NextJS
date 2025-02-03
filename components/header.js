@@ -33,16 +33,16 @@ export default async function Header() {
         </li>
       </ul>
       <ul>
-        <div className="relative h-80 w-[400px] md:h-64 md:w-[300px]">
+        
           <Image
             src={imgSrc}
-            layout="fill"
-            objectFit="cover"
+            width={200}
+            height={200}
             priority
-            alt="logo"
+            alt="university logo"
             className="rounded-xl md:rounded-l-xl md:rounded-r-none transform hover:scale-105 hover:rounded-xl duration-200"
           />
-        </div>
+        
       </ul>
     </header>
   );

@@ -27,8 +27,7 @@ export default async function StudentNoticeBoardPage() {
   );
   console.log("studentNotices", studentNotices);
 
-  return (
-    <>
+  return (<>
     <Header />
     <main>
       <div className="p-4">
@@ -59,7 +58,6 @@ export default async function StudentNoticeBoardPage() {
         })}
       </div>
       </main>
-      <Footer />
-    </>
-  );
+    <Footer />
+  </>);
 }
