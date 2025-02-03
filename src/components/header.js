@@ -66,7 +66,7 @@ export default async function Header() {
         </li>
         <li>
           <ul className="flex items-center space-x-4">
-            <li className="bg-sky-500 p-8 py-2 w-10 h-10 hover:bg-sky-700 hover:text-white"><button>Menu</button></li>
+            <li className="bg-sky-500 p-8 py-2 hover:bg-sky-700 hover:text-white"><button>Menu</button></li>
             <li>
               <CiSearch />
             </li>
