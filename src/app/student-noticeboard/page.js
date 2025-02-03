@@ -4,8 +4,8 @@ import {
   getStudentNoticeBoardCategoriesIds,
   getStudentNoticeBoardCategoryPosts,
 } from "@/lib/univeristyapi";
-import Header from "../../../components/header";
-import Footer from "../../../components/footer";
+import Header from "../../components/header";
+import Footer from "../../components/footer";
 export default async function StudentNoticeBoardPage() {
 
   const studentNoticeBoard = await getStudentNoticeBoard(); // only for page description or content
