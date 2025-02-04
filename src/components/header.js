@@ -1,14 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getImage } from "@/lib/univeristyapi";
+import { getLogo } from "@/lib/univeristyapi";
 import { CiSearch } from "react-icons/ci";
 import { GoPersonFill } from "react-icons/go";
 
 export default async function Header() {
-  const image = await getImage();
-
-  const imgSrc = image[0].guid.rendered;
-  console.log(imgSrc);
+  const logo = await getLogo();
+  console.log(logo);
 
   return (
     <header className="">
@@ -29,7 +27,7 @@ export default async function Header() {
           </Link>
         </li>
         <li className="p-8 py-2">
-          <Link href="/student-noticeboard" className="hover:text-sky-500 px-4">
+          <Link href="/student-noticeboard" className="text-sky-500 px-4">
             Student Noticeboard
           </Link>
         </li>
@@ -54,7 +52,7 @@ export default async function Header() {
           <Link href="/">
             <div className="relative h-16 w-[600px]">
               <Image
-                src={imgSrc}
+                src={logo}
                 layout="fill"
                 objectFit="cover"
                 priority
