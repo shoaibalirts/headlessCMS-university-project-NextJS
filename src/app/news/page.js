@@ -28,13 +28,12 @@ export default async function NewsPage() {
       <Header>News</Header>
       <main className="w-full">
         {/* Posts Outer Container */}
-        <div className="">
+        
           {/* Card Container */}
           {posts.map((post) => {
-            // let textWithBreaks = post.text.replace(/\n/g, "<br />");
 
             return (
-              <div key={post.id} className="bg-slate-200 mt-8">
+              <div key={post.id} className="bg-slate-200 mb-2 py-4">
                 <div className="px-32 font-bold text-3xl tracking-wide">
                   <p className="py-4 font-normal">
                     {new Date(post.date_gmt).toLocaleDateString()}
@@ -53,11 +52,13 @@ export default async function NewsPage() {
                     alt="beans"
                   />
                 </div>
-                <p className="px-32 tracking-wide">{post.text}</p>
+                <p className="px-32 tracking-wide whitespace-pre-line">{post.text}</p>
+                
               </div>
+              
             );
           })}
-        </div>
+        
       </main>
       <Footer />
     </>

@@ -66,7 +66,7 @@ export async function getCategoryPosts(CATEGORY_ID) {
       const text = root.querySelectorAll('p')
         .filter(p => !p.querySelector('img'))
         .map(p => p.textContent)
-        .join(' ')
+        .join('\n')
         .trim();
       // console.log(image);
       // console.log(text);
