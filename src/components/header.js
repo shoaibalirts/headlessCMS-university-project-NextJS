@@ -4,10 +4,11 @@ import { getLogo } from "@/lib/univeristyapi";
 import { CiSearch } from "react-icons/ci";
 import { GoPersonFill } from "react-icons/go";
 
-export default async function Header() {
+export default async function Header({children}) {
   const logo = await getLogo();
   console.log(logo);
-
+  console.log("title: ", children);
+  
   return (
     <header className="">
       <ul className="flex flex-col items-center justify-center space-y-4 md:flex-row md:space-x-4 md:justify-end md:pr-14 uppercase">

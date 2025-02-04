@@ -1,4 +1,5 @@
 import he from "he";
+
 import { getAllCategories, getCategoryPosts } from "@/lib/univeristyapi";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
@@ -19,37 +20,40 @@ export default async function NewsPage() {
   // Each Category has id
   // Get All Posts spacific to this category id
   const posts = await getCategoryPosts(newsCategory[0].id);
-  console.log("NewsPosts", posts);
+
+  // console.log("NewsPosts", posts);
 
   return (
     <>
-      <Header />
-      <main>
+      <Header>News</Header>
+      <main className="w-full">
         {/* Posts Outer Container */}
-        <div className="mt-4 shadow-xl m-8">
+        <div className="">
           {/* Card Container */}
           {posts.map((post) => {
+            // let textWithBreaks = post.text.replace(/\n/g, "<br />");
+
             return (
-              <div key={post.id} className="mt-4 border border-black p-2">
-                <p>{new Date(post.date_gmt).toLocaleDateString()}</p>
-                <h2 className="text-2xl font-bold">
-                  {he.decode(post.title.rendered)}
-                </h2>
-                <div className="relative h-16 w-[600px]">
-                  {/* <Image
-                    src={logo}
+              <div key={post.id} className="bg-slate-200 mt-8">
+                <div className="px-32 font-bold text-3xl tracking-wide">
+                  <p className="py-4 font-normal">
+                    {new Date(post.date_gmt).toLocaleDateString()}
+                  </p>
+                  <h2 className="text-2xl font-bold">
+                    {he.decode(post.title.rendered)}
+                  </h2>
+                </div>
+
+                <div className="relative h-screen my-4">
+                  <Image
+                    src={post.image}
                     layout="fill"
                     objectFit="cover"
                     priority
-                    alt="university logo"
-                    className="hidden md:block"
-                  /> */}
+                    alt="beans"
+                  />
                 </div>
-                <p>{post.content.rendered.replace(/<\/?[^>]+(>|$)/g, "")}</p>
-                <div
-                  className="prose max-w-none"
-                  dangerouslySetInnerHTML={{ __html: post.content.rendered }}
-                />
+                <p className="px-32 tracking-wide">{post.text}</p>
               </div>
             );
           })}

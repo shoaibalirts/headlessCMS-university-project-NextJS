@@ -1,4 +1,5 @@
-import extractImage from "../utility/extractimage";
+import { parse } from 'node-html-parser';
+
 // Logo image in header --------------------------------
 
 export async function getLogo(){
@@ -52,18 +53,34 @@ export async function getAllCategories() {
 }
 
 
-// getStudentNoticeBoardCategoryPosts
+// Get All Posts against each category id 
 export async function getCategoryPosts(CATEGORY_ID) {
   try {
     
     const response = await fetch(`http://localhost:8080/university/wordpress/wp-json/wp/v2/posts?categories=${CATEGORY_ID}`);
     const data = await response.json();
     console.log("DATA: ",data);
-    // const imgSrc = extractImage(data[0].content.rendered)
-    // const { title, content, featured_image_url } = data[0];
-    // console.log(data[0].content.rendered);
+    const processedPosts = data.map(post => {
+      const root = parse(post.content.rendered);
+      const image = root.querySelector('p img')?.getAttribute('src');
+      const text = root.querySelectorAll('p')
+        .filter(p => !p.querySelector('img'))
+        .map(p => p.textContent)
+        .join(' ')
+        .trim();
+      // console.log(image);
+      // console.log(text);
+      
+     
+      return {
+        ...post,
+        image,
+        text,
+      };
+    });
     
-    return data;
+    // return data;
+    return processedPosts;
   } catch (error) {}
 }
 

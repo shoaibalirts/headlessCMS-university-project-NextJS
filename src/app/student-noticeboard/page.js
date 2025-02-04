@@ -1,4 +1,6 @@
 import he from "he";
+import cheerio from 'cheerio';
+
 import {
   getAllCategories,
   getCategoryPosts,
@@ -29,7 +31,7 @@ export default async function StudentNoticeBoardPage() {
   // console.log("studentNotices", posts);
 
   return (<>
-    <Header />
+    <Header>Student Noticeboard</Header>
     <main>
       <div className="p-4">
         <p className="font-2xl">
