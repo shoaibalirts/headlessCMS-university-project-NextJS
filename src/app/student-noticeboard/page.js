@@ -1,38 +1,39 @@
 import he from "he";
 import {
-  getStudentNoticeBoard,
-  getStudentNoticeBoardCategoriesIds,
-  getStudentNoticeBoardCategoryPosts,
+  getAllCategories,
+  getCategoryPosts,
+  getStudentNoticeBoardPageContent,
 } from "@/lib/univeristyapi";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 export default async function StudentNoticeBoardPage() {
 
-  const studentNoticeBoard = await getStudentNoticeBoard(); // only for page description or content
+  const studentNoticeBoardPageContent = await getStudentNoticeBoardPageContent(); // only for page description or content
   //   console.log(studentNoticeBoard);
   // -------------------
   // Get All Categories available in wordpress
-  const categories = await getStudentNoticeBoardCategoriesIds();
-  console.log("categories", categories);
-  // Get Posts for the Category of student-noticeboard via array filter method
-  const studentNoticeBoardCategories = categories.filter(
+  const categories = await getAllCategories();
+  // console.log("categories", categories);
+
+  // Get only one Category named student-noticeboard
+  const studentNoticeBoardCategory = categories.filter(
     (category) => category.slug === "student-noticeboard"
   );
-  console.log("studentNoticeBoardCategories", studentNoticeBoardCategories); // array of objects and each object has id which is a post id
+  console.log("studentNoticeBoardCategory", studentNoticeBoardCategory); // array of objects and each object has id which is a post id
 
   // Each Category has id
-  // Sending the id of stdNoticeboardCategory to the API in order to get all posts array related to this category
-  const studentNotices = await getStudentNoticeBoardCategoryPosts(
-    studentNoticeBoardCategories[0].id
+  // Get All Posts spacific to this category id
+  const posts = await getCategoryPosts(
+    studentNoticeBoardCategory[0].id
   );
-  console.log("studentNotices", studentNotices);
+  // console.log("studentNotices", posts);
 
   return (<>
     <Header />
     <main>
       <div className="p-4">
         <p className="font-2xl">
-          {studentNoticeBoard[0].content.rendered.replace(
+          {studentNoticeBoardPageContent[0].content.rendered.replace(
             /<\/?[^>]+(>|$)/g,
             ""
           )}
@@ -41,7 +42,7 @@ export default async function StudentNoticeBoardPage() {
       {/* Posts Outer Container */}
       <div className="mt-4 shadow-xl m-8">
         {/* Card Container */}
-        {studentNotices.map((post) => {
+        {posts.map((post) => {
           return (
             <div key={post.id} className="mt-4 border border-black p-2">
               <h2 className="text-2xl font-bold">

@@ -1,63 +1,61 @@
 import he from "he";
-import {
-  getStudentNoticeBoard,
-  getStudentNoticeBoardCategoriesIds,
-  getStudentNoticeBoardCategoryPosts,
-} from "@/lib/univeristyapi";
+import { getAllCategories, getCategoryPosts } from "@/lib/univeristyapi";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-export default async function StudentNoticeBoardPage() {
+import Image from "next/image";
 
-  const studentNoticeBoard = await getStudentNoticeBoard(); // only for page description or content
-  //   console.log(studentNoticeBoard);
+export default async function NewsPage() {
   // -------------------
   // Get All Categories available in wordpress
-  const categories = await getStudentNoticeBoardCategoriesIds();
-  console.log("categories", categories);
-  // Get Posts for the Category of student-noticeboard via array filter method
-  const studentNoticeBoardCategories = categories.filter(
-    (category) => category.slug === "student-noticeboard"
+  const categories = await getAllCategories();
+  // console.log("All Categories: ", categories);
+
+  // Get only one Category named news
+  const newsCategory = categories.filter(
+    (category) => category.slug === "news"
   );
-  console.log("studentNoticeBoardCategories", studentNoticeBoardCategories); // array of objects and each object has id which is a post id
+  // console.log("newsCategory id: ", newsCategory[0].id);
 
   // Each Category has id
-  // Sending the id of stdNoticeboardCategory to the API in order to get all posts array related to this category
-  const studentNotices = await getStudentNoticeBoardCategoryPosts(
-    studentNoticeBoardCategories[0].id
-  );
-  console.log("studentNotices", studentNotices);
+  // Get All Posts spacific to this category id
+  const posts = await getCategoryPosts(newsCategory[0].id);
+  console.log("NewsPosts", posts);
 
-  return (<>
-    <Header />
-    <main>
-      <div className="p-4">
-        <p className="font-2xl">
-          {studentNoticeBoard[0].content.rendered.replace(
-            /<\/?[^>]+(>|$)/g,
-            ""
-          )}
-        </p>
-      </div>
-      {/* Posts Outer Container */}
-      <div className="mt-4 shadow-xl m-8">
-        {/* Card Container */}
-        {studentNotices.map((post) => {
-          return (
-            <div key={post.id} className="mt-4 border border-black p-2">
-              <h2 className="text-2xl font-bold">
-                {he.decode(post.title.rendered)}
-              </h2>
-              <p>{new Date(post.date_gmt).toLocaleDateString()}</p>
-              {/* <p>{post.content.rendered.replace(/<\/?[^>]+(>|$)/g, "")}</p> */}
-              <div
-                className="prose max-w-none" 
-                dangerouslySetInnerHTML={{ __html: post.content.rendered }}
-              />
-            </div>
-          );
-        })}
-      </div>
+  return (
+    <>
+      <Header />
+      <main>
+        {/* Posts Outer Container */}
+        <div className="mt-4 shadow-xl m-8">
+          {/* Card Container */}
+          {posts.map((post) => {
+            return (
+              <div key={post.id} className="mt-4 border border-black p-2">
+                <p>{new Date(post.date_gmt).toLocaleDateString()}</p>
+                <h2 className="text-2xl font-bold">
+                  {he.decode(post.title.rendered)}
+                </h2>
+                <div className="relative h-16 w-[600px]">
+                  {/* <Image
+                    src={logo}
+                    layout="fill"
+                    objectFit="cover"
+                    priority
+                    alt="university logo"
+                    className="hidden md:block"
+                  /> */}
+                </div>
+                <p>{post.content.rendered.replace(/<\/?[^>]+(>|$)/g, "")}</p>
+                <div
+                  className="prose max-w-none"
+                  dangerouslySetInnerHTML={{ __html: post.content.rendered }}
+                />
+              </div>
+            );
+          })}
+        </div>
       </main>
-    <Footer />
-  </>);
+      <Footer />
+    </>
+  );
 }
